@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ovarian Cyst Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<script>
+function showInfo() {
+    alert("Ovarian Cyst Detection System\nFor educational & clinical assistance only.");
+}
+</script>
+
+<body>
+
+<!-- 🌙 DARK MODE TOGGLE (ALWAYS VISIBLE) -->
+<div class="theme-toggle">
+    <button onclick="toggleTheme()">🌙 / ☀</button>
+</div>
+
+<!-- ❤️ HEARTBEAT BACKGROUND -->
+<div class="heartbeat"></div>
+
+<div class="container">
+    <h1>🩺 Ovarian Cyst Detection</h1>
+    <p class="subtitle">AI-based Ultrasound Image Analysis</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" multiple required>
+        <button type="submit">Analyze Image</button>
+    </form>
+
+    {% for r in results %}
+    <div class="result-card">
+        <img src="{{ r.image }}">
+        <h3>{{ r.label }}</h3>
+        <p>Confidence: {{ r.confidence }}%</p>
+
+        <div class="bar">
+            <div class="fill" style="width: {{ r.confidence }}%"></div>
+        </div>
+
+        <p class="note">
+            {% if "Cyst" in r.label %}
+            Clinical review recommended.
+            {% else %}
+            Ovary appears normal.
+            {% endif %}
+        </p>
+    </div>
+    {% endfor %}
+</div>
+
+
+<footer class="footer">
+    <a href="/" class="footer-link">🏠 Home</a>
+    
+    <a href="#" class="footer-link" onclick="showInfo()">ℹ Info</a>
+</footer>
+
+
+</body>
+</html>
